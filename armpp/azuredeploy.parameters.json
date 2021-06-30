@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminUsername": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "adminPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/2fbf906e-1101-4bc0-b64f-adc44e462fff/resourceGroups/TIM/providers/Microsoft.KeyVault/vaults/tim-keyvault-001"
+                },
+                "secretName": "timvmpw"
+            }
+        },
+        "dnsLabelPrefix": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "publicIpName": {
+            "value": "myPublicIP"
+        },
+        "publicIPAllocationMethod": {
+            "value": "Dynamic"
+        },
+        "publicIpSku": {
+            "value": "Basic"
+        },
+        "OSVersion": {
+            "value": "2019-Datacenter"
+        },
+        "vmSize": {
+            "value": "Standard_D2_v3"
+        },
+        "location": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "vmName": {
+            "value": "simple-vm"
+        }
+    }
+}

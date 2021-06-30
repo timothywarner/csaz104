@@ -1,0 +1,17 @@
+# Terraform
+
+az login
+
+az account set --subscription ""
+
+terraform init
+
+terraform plan
+
+terraform apply
+
+# Bicep
+
+bicep build storage-account.bicep
+
+New-AzResourcegGroupDeployment -Name "" // etc

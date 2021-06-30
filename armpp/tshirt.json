@@ -1,0 +1,76 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "webSiteName": {
+            "type": "string",
+            "minLength": 2
+        },
+        "webAppSize": {
+            "type": "string",
+            "defaultValue": "Small",
+            "allowedValues": [
+                "Small",
+                "Medium",
+                "Large"
+            ]
+        }
+    },
+    "variables": {
+        "tshirtSize": "[variables(concat('tshirtSize',parameters('webAppSize')))]",
+        "tshirtSizeSmall": {
+            "skuName": "S1",
+            "skuCapacity": 1
+        },
+        "tshirtSizeMedium": {
+            "skuName": "S2",
+            "skuCapacity": 2
+        },
+        "tshirtSizeLarge": {
+            "skuName": "S3",
+            "skuCapacity": 3
+        },
+        "hostingPlanName": "[concat(parameters('webSiteName'),'hp')]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-08-01",
+            "name": "[variables('hostingPlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[resourceGroup().location]",
+            "comments": "DON'T USE THIS CODE! LOVE, TIM!"
+            "tags": {
+                "displayName": "HostingPlan"
+            },
+            "sku": {
+                "name": "[variables('tshirtSize').skuName]",
+                "capacity": "[variables('tshirtSize').skuCapacity]"
+            },
+            "properties": {
+                "name": "[variables('hostingPlanName')]"
+            }
+        },
+        {
+            "apiVersion": "2015-08-01",
+            "name": "[parameters('webSiteName')]",
+            "type": "Microsoft.Web/sites",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', variables('hostingPlanName'))]": "Resource",
+                "displayName": "Website"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
+            ],
+            "properties": {
+                "name": "[parameters('webSiteName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+                "siteConfig": {
+                    "alwaysOn": true,
+                    "remoteDebuggingVersion": "VS2015",
+                    "use32BitWorkerProcess": false
+                }
+            }
+        }
+    ]
+}

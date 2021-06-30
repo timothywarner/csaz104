@@ -1,0 +1,11 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "parameters": {
+        "my_Parameter": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "foo": "[ parameters ( 'My_Parameter') ]"
+    }
+}
